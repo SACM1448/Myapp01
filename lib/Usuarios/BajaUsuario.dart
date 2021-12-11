@@ -8,11 +8,18 @@ class BajaUsuario extends StatefulWidget {
   BajaUsuarioApp createState() => BajaUsuarioApp();
 }
 
-//
+
 class BajaUsuarioApp extends State<BajaUsuario> {
   TextEditingController correo = TextEditingController();
   TextEditingController pass = TextEditingController();
-  validarDatos() async {
+  TextEditingController nombre = TextEditingController();
+  TextEditingController telefono = TextEditingController();
+  TextEditingController direccion = TextEditingController();
+  final firebase = FirebaseFirestore.instance;
+  String correo1 = "";
+  String idDoc = "";
+  bool estado = false;
+  validarDatos1() async {
     try {
       CollectionReference ref =
           FirebaseFirestore.instance.collection("Usuarios");
@@ -42,6 +49,44 @@ class BajaUsuarioApp extends State<BajaUsuario> {
       print(e);
     }
   }
+  validarDatos() async {
+    try {
+      CollectionReference ref =
+      FirebaseFirestore.instance.collection("Usuarios");
+      QuerySnapshot usuario = await ref.get();
+
+      if (usuario.docs.length != 0) {
+        for (var cursor in usuario.docs) {
+          if (cursor.get("Correo") == correo.text) {
+            nombre.text = cursor.get("nombreUsuario");
+            telefono.text = cursor.get("Telefono");
+            direccion.text = cursor.get("Direccion");
+            this.idDoc = cursor.id;
+            this.correo1 = cursor.get("Correo");
+            this.pass = cursor.get("Password");
+          }
+        }
+      } else {
+        print("No hay elementos en la colección ");
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+  modificarDatos() async {
+    try {
+      await firebase.collection("Usuarios").doc(idDoc).set({
+        "nombreUsuario": nombre.text,
+        "Correo": this.correo1,
+        "Telefono": telefono.text,
+        "Password": pass,
+        "Direccion": direccion.text,
+        "Estado": false
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +94,7 @@ class BajaUsuarioApp extends State<BajaUsuario> {
     return Scaffold(
       backgroundColor: Colors.indigoAccent,
       appBar: AppBar(
-        title: Text("Ingreso de clientes"),
+        title: Text("Inactivar"),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -93,7 +138,9 @@ class BajaUsuarioApp extends State<BajaUsuario> {
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(minimumSize: Size(100, 50)),
                 onPressed: () {
-                  validarDatos();
+                  validarDatos1();
+                  //validarDatos();
+                  modificarDatos();
                 },
                 child: Text("Enviar"),
               ),
