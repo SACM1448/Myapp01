@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'BajaUsuario.dart';
 import 'CambioPass.dart';
 import 'Login.dart';
 import 'ModificarUsuario.dart';
@@ -67,9 +68,8 @@ class GestionUsuarioApp extends State<GestionUsuario> {
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(minimumSize: Size(145, 50)),
                     onPressed: () {
-                      // Navigator.push(
-                      //   context, MaterialPageRoute(builder: (_) => BajaUsuario()));
-                      mensaje("Inactivar Usuario", "¿Desea inactivar al usuario?");
+                       Navigator.push(
+                         context, MaterialPageRoute(builder: (_) => BajaUsuario()));
                     },
                     child: Text("Inactivar Usuario"),
                   ),

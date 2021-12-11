@@ -3,28 +3,28 @@ import 'package:flutter/material.dart';
 
 import 'Token.dart';
 
-class Login extends StatefulWidget {
+class BajaUsuario extends StatefulWidget {
   @override
-  LoginApp createState() => LoginApp();
+  BajaUsuarioApp createState() => BajaUsuarioApp();
 }
 
 //
-class LoginApp extends State<Login> {
+class BajaUsuarioApp extends State<BajaUsuario> {
   TextEditingController correo = TextEditingController();
   TextEditingController pass = TextEditingController();
   validarDatos() async {
     try {
       CollectionReference ref =
-      FirebaseFirestore.instance.collection("Usuarios");
+          FirebaseFirestore.instance.collection("Usuarios");
       QuerySnapshot usuario = await ref.get();
 
       if (usuario.docs.length != 0) {
         print(usuario.docs.length);
         int flag = 0;
         for (var cursor in usuario.docs) {
-
           if (cursor.get("Correo") == correo.text) {
-            if (cursor.get("Password") == pass.text && cursor.get("Estado") == true) {
+            if (cursor.get("Password") == pass.text &&
+                cursor.get("Estado") == true) {
               flag = 1;
               Token tk = new Token();
               tk.guardarToken(cursor.id.toString());
@@ -117,35 +117,8 @@ class LoginApp extends State<Login> {
                   Navigator.of(context).pop();
                 },
                 child:
-                Text("Aceptar", style: TextStyle(color: Colors.blueGrey)),
+                    Text("Aceptar", style: TextStyle(color: Colors.blueGrey)),
               )
-            ],
-          );
-        });
-  }
-  void mensaje1(String titulo, String mess) {
-    showDialog(
-        context: context,
-        builder: (buildcontext) {
-          return AlertDialog(
-            backgroundColor: Colors.indigoAccent,
-            title: Text(titulo),
-            content: Text(mess),
-            actions: <Widget>[
-              RaisedButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child:
-                Text("Cancelar", style: TextStyle(color: Colors.blueGrey)),
-              ),
-              RaisedButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child:
-                Text("Aceptar", style: TextStyle(color: Colors.blueGrey)),
-              ),
             ],
           );
         });
