@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "706650684941",
+    "project_id": "bdappmovil-702a9",
+    "storage_bucket": "bdappmovil-702a9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:706650684941:android:8aa9b654a7ac23e0b0df44",
+        "android_client_info": {
+          "package_name": "com.unbosque.myapp01"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "706650684941-99d5cc5ckrjb36tk4vd2hkl16rrisfr2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCtpawZJBB7W7MNfj173ya4Hyji6wdJS1M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "706650684941-99d5cc5ckrjb36tk4vd2hkl16rrisfr2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:706650684941:android:4de7ae1379d5ad5ab0df44",
+        "android_client_info": {
+          "package_name": "com.unbosque.myappmovil_06"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "706650684941-99d5cc5ckrjb36tk4vd2hkl16rrisfr2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCtpawZJBB7W7MNfj173ya4Hyji6wdJS1M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "706650684941-99d5cc5ckrjb36tk4vd2hkl16rrisfr2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
