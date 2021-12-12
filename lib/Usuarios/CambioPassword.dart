@@ -22,16 +22,14 @@ class CambioPasswordApp extends State<CambioPassword> {
         for (var cursor in user.docs) {
           if (cursor.get("Correo") == correo.text) {
             if (cursor.get("Password") == PassA.text) {
-              //print(cursor.get("NombreUsuario"));
               flang = 1;
-              //print(cursor.id);
               try {
                 await firebase.collection("Usuarios").doc(cursor.id).set({
                   "NombreUsuario": cursor.get("NombreUsuario"),
                   "Correo": cursor.get("Correo"),
                   "Telefono": cursor.get("Telefono"),
                   "Password": PassN.text,
-                  "Estrado": true
+                  "Estado": true
                 });
               } catch (e) {
                 print(e);
