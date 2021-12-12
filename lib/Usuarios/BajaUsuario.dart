@@ -32,6 +32,7 @@ class BajaUsuarioApp extends State<BajaUsuario> {
           if (cursor.get("Correo") == correo.text) {
             if (cursor.get("Password") == pass.text &&
                 cursor.get("Estado") == true) {
+              validarDatos();
               flag = 1;
               Token tk = new Token();
               tk.guardarToken(cursor.id.toString());
@@ -66,6 +67,7 @@ class BajaUsuarioApp extends State<BajaUsuario> {
             this.pass = cursor.get("Password");
           }
         }
+        modificarDatos();
       } else {
         print("No hay elementos en la colección ");
       }
@@ -75,6 +77,11 @@ class BajaUsuarioApp extends State<BajaUsuario> {
   }
   modificarDatos() async {
     try {
+      await nombre.text != " ";
+      await correo1 != " ";
+      await telefono.text != " ";
+      await pass != " ";
+      await direccion.text != " ";
       await firebase.collection("Usuarios").doc(idDoc).set({
         "nombreUsuario": nombre.text,
         "Correo": this.correo1,
@@ -139,8 +146,6 @@ class BajaUsuarioApp extends State<BajaUsuario> {
                 style: ElevatedButton.styleFrom(minimumSize: Size(100, 50)),
                 onPressed: () {
                   validarDatos1();
-                  //validarDatos();
-                  modificarDatos();
                 },
                 child: Text("Enviar"),
               ),
