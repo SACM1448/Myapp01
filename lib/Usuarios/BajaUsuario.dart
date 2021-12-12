@@ -8,7 +8,6 @@ class BajaUsuario extends StatefulWidget {
   BajaUsuarioApp createState() => BajaUsuarioApp();
 }
 
-
 class BajaUsuarioApp extends State<BajaUsuario> {
   TextEditingController correo = TextEditingController();
   TextEditingController pass = TextEditingController();
@@ -18,78 +17,35 @@ class BajaUsuarioApp extends State<BajaUsuario> {
   final firebase = FirebaseFirestore.instance;
   String correo1 = "";
   String idDoc = "";
-  bool estado = false;
-  validarDatos1() async {
-    try {
-      CollectionReference ref =
-          FirebaseFirestore.instance.collection("Usuarios");
-      QuerySnapshot usuario = await ref.get();
-
-      if (usuario.docs.length != 0) {
-        print(usuario.docs.length);
-        int flag = 0;
-        for (var cursor in usuario.docs) {
-          if (cursor.get("Correo") == correo.text) {
-            if (cursor.get("Password") == pass.text &&
-                cursor.get("Estado") == true) {
-              validarDatos();
-              flag = 1;
-              Token tk = new Token();
-              tk.guardarToken(cursor.id.toString());
-              Navigator.of(context).pop();
-            }
-          }
-        }
-        if (flag == 0) {
-          mensaje("No encotrado", "No se encontró el usuario");
-        }
-      } else {
-        print("No hay elementos en la colección ");
-      }
-    } catch (e) {
-      print(e);
-    }
-  }
+  int flang = 0;
   validarDatos() async {
     try {
       CollectionReference ref =
-      FirebaseFirestore.instance.collection("Usuarios");
-      QuerySnapshot usuario = await ref.get();
-
-      if (usuario.docs.length != 0) {
-        for (var cursor in usuario.docs) {
+          FirebaseFirestore.instance.collection("Usuarios");
+      QuerySnapshot user = await ref.get();
+      if (user.docs.length != 0) {
+        for (var cursor in user.docs) {
           if (cursor.get("Correo") == correo.text) {
-            nombre.text = cursor.get("nombreUsuario");
-            telefono.text = cursor.get("Telefono");
-            direccion.text = cursor.get("Direccion");
-            this.idDoc = cursor.id;
-            this.correo1 = cursor.get("Correo");
-            this.pass = cursor.get("Password");
+            if (cursor.get("Password") == pass.text) {
+              flang = 1;
+              try {
+                await firebase.collection("Usuarios").doc(cursor.id).set({
+                  "NombreUsuario": cursor.get("NombreUsuario"),
+                  "Correo": cursor.get("Correo"),
+                  "Telefono": cursor.get("Telefono"),
+                  "Password": pass.text,
+                  "Estado": false
+                });
+              } catch (e) {
+                print(e);
+              }
+            }
           }
         }
-        modificarDatos();
+        if (flang == 0) {}
       } else {
-        print("No hay elementos en la colección ");
+        print("no hay elementos en la coleccion");
       }
-    } catch (e) {
-      print(e);
-    }
-  }
-  modificarDatos() async {
-    try {
-      await nombre.text != " ";
-      await correo1 != " ";
-      await telefono.text != " ";
-      await pass != " ";
-      await direccion.text != " ";
-      await firebase.collection("Usuarios").doc(idDoc).set({
-        "nombreUsuario": nombre.text,
-        "Correo": this.correo1,
-        "Telefono": telefono.text,
-        "Password": pass,
-        "Direccion": direccion.text,
-        "Estado": false
-      });
     } catch (e) {
       print(e);
     }
@@ -145,7 +101,7 @@ class BajaUsuarioApp extends State<BajaUsuario> {
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(minimumSize: Size(100, 50)),
                 onPressed: () {
-                  validarDatos1();
+                  validarDatos();
                 },
                 child: Text("Enviar"),
               ),
@@ -154,25 +110,5 @@ class BajaUsuarioApp extends State<BajaUsuario> {
         ),
       ),
     );
-  }
-
-  void mensaje(String titulo, String mess) {
-    showDialog(
-        context: context,
-        builder: (buildcontext) {
-          return AlertDialog(
-            title: Text(titulo),
-            content: Text(mess),
-            actions: <Widget>[
-              RaisedButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child:
-                    Text("Aceptar", style: TextStyle(color: Colors.blueGrey)),
-              )
-            ],
-          );
-        });
   }
 }
